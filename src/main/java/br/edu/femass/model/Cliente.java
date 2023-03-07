@@ -29,8 +29,48 @@ public class Cliente {
         ultimoCodigo++;
     }
 
-    public static void main(String[] args) {
-        Cliente c = new Cliente("37713421203", "Joao", "123");
+    public Long getId() {
+        return id;
     }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void adicionarTelefone(String telefone) {
+        this.telefones.add(telefone);
+    }
+
+    public void removerTelefone(String telefone) throws Exception {
+        if (telefones.size()==1) {
+            throw new Exception("O cliente tem que ter pelo menos um telefone");
+        }
+        this.telefones.remove(telefone);
+    }
+
+    public List<String> getTelefones() {
+        return telefones;
+    }
+
     
 }
