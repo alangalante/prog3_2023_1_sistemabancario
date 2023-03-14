@@ -3,15 +3,18 @@ package br.edu.femass.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import br.edu.femass.dao.ClienteDao;
 import br.edu.femass.diversos.DiversosJavaFx;
 import br.edu.femass.model.Cliente;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 
 public class ClienteController implements Initializable {
 
@@ -36,15 +39,43 @@ public class ClienteController implements Initializable {
     @FXML
     private ListView<Cliente> listaCliente;
 
-    @FXML
-    private void BtnNovo_Click(ActionEvent event) {
-        System.out.println("Novo!");
+    private ClienteDao clienteDao = new ClienteDao();
 
+
+    @FXML 
+    private void listaCliente_keyPressed(KeyEvent event) {
+        exibirDados();
+    }
+
+    @FXML 
+    private void listaCliente_mouseClicked(MouseEvent event) {
+        exibirDados();
+    }
+
+    private void exibirDados() {
+        Cliente cliente = listaCliente.getSelectionModel().getSelectedItem();
+        if (cliente==null) return;
+
+        TxtCpf.setText(cliente.getCpf());
+        TxtEmail.setText(cliente.getEmail());
+        TxtEndereco.setText(cliente.getEndereco());
+        TxtId.setText(cliente.getId().toString());
+        TxtNome.setText(cliente.getNome());
+        TxtTelefone.setText(cliente.getTelefones().get(0));
     }
 
     @FXML
     private void BtnExcluir_Click(ActionEvent event) {
-        System.out.println("Excluir!");
+        Cliente cliente = listaCliente.getSelectionModel().getSelectedItem();
+        if (cliente==null) return;
+
+        try {
+        clienteDao.excluir(cliente);
+        exibirClientes();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       
 
     }
 
@@ -59,14 +90,40 @@ public class ClienteController implements Initializable {
             cliente.setEndereco(TxtEndereco.getText());
 
             TxtId.setText(cliente.getId().toString());
-        } catch (IllegalArgumentException e) {
+
+            clienteDao.gravar(cliente);
+
+
+            TxtCpf.setText("");
+            TxtEmail.setText("");
+            TxtEndereco.setText("");
+            TxtId.setText("");
+            TxtNome.setText("");
+            TxtTelefone.setText("");
+
+
+            exibirClientes();   
+        } catch (Exception e) {
             DiversosJavaFx.exibirMensagem(e.getMessage());
         }
 
     }
 
+    public void exibirClientes() {
+        try {
+        ObservableList<Cliente> data = FXCollections.observableArrayList(
+            clienteDao.buscar()
+        );
+        listaCliente.setItems(data);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        exibirClientes();
     }
 
 }

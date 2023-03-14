@@ -14,8 +14,7 @@
    <center>
       <Pane prefHeight="408.0" prefWidth="619.0" BorderPane.alignment="CENTER">
          <children>
-            <ListView fx:id="listaCliente" layoutX="14.0" layoutY="21.0" prefHeight="314.0" prefWidth="231.0" />
-            <Button layoutX="14.0" layoutY="348.0" mnemonicParsing="false" onAction="#BtnNovo_Click" text="Novo" />
+            <ListView fx:id="listaCliente" layoutX="14.0" layoutY="21.0" onKeyPressed="#listaCliente_keyPressed" onMouseClicked="#listaCliente_mouseClicked" prefHeight="314.0" prefWidth="231.0" />
             <Button layoutX="190.0" layoutY="348.0" mnemonicParsing="false" onAction="#BtnExcluir_Click" text="Excluir" />
             <GridPane layoutX="260.0" layoutY="39.0" prefHeight="206.0" prefWidth="288.0">
               <columnConstraints>

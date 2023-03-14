@@ -15,6 +15,10 @@ public class Cliente {
 
     private static Long ultimoCodigo = 0L;
 
+    public Cliente() {
+
+    }
+    
     public Cliente(
         String cpf,
         String nome,
@@ -72,5 +76,9 @@ public class Cliente {
         return telefones;
     }
 
+    @Override
+    public String toString() {
+        return this.nome;
+    }
     
 }
