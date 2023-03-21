@@ -30,6 +30,22 @@ public class MainController implements Initializable {
         } catch(Exception ex) {
             ex.printStackTrace();
         }
+    }    
+    
+    @FXML
+    private void handleBtnContaAction(ActionEvent event) {
+        try {
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/ContaCorrente.fxml"));
+        
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+
+        stage.setTitle("Conta Corrente");
+        stage.setScene(scene);
+        stage.show();
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
     }
     
     @Override

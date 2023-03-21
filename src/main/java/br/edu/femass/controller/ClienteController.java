@@ -70,7 +70,9 @@ public class ClienteController implements Initializable {
         if (cliente==null) return;
 
         try {
-        clienteDao.excluir(cliente);
+            if (clienteDao.excluir(cliente)==false) {
+                DiversosJavaFx.exibirMensagem("Não foi possível excluir o cliente selecionado");
+            }
         exibirClientes();
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,8 +93,10 @@ public class ClienteController implements Initializable {
 
             TxtId.setText(cliente.getId().toString());
 
-            clienteDao.gravar(cliente);
-
+            if (clienteDao.gravar(cliente)==false) {
+                DiversosJavaFx.exibirMensagem("Não foi possível gravar o cliente");
+                return;
+            }
 
             TxtCpf.setText("");
             TxtEmail.setText("");
@@ -112,7 +116,7 @@ public class ClienteController implements Initializable {
     public void exibirClientes() {
         try {
         ObservableList<Cliente> data = FXCollections.observableArrayList(
-            clienteDao.buscar()
+            clienteDao.buscarAtivos()
         );
         listaCliente.setItems(data);
         } catch (Exception ex) {
